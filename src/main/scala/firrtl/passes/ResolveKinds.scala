@@ -27,6 +27,7 @@ object ResolveKinds extends Pass {
 
   def resolve_stmt(kinds: KindMap)(s: Statement): Statement = {
     s match {
+      case sx: DefField     => kinds(sx.name) = FieldKind
       case sx: DefWire      => kinds(sx.name) = WireKind
       case sx: DefNode      => kinds(sx.name) = NodeKind
       case sx: DefRegister  => kinds(sx.name) = RegKind

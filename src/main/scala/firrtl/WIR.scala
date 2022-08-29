@@ -10,6 +10,7 @@ import WrappedWidth._
 import firrtl.passes.CheckTypes.legalResetType
 
 trait Kind
+case object FieldKind extends Kind
 case object WireKind extends Kind
 case object PoisonKind extends Kind
 case object RegKind extends Kind

@@ -70,6 +70,11 @@ object InferTypes extends Pass {
         val t = remove_unknowns(sxx.value.tpe)
         types(sx.name) = t
         sxx
+      case sx: DefField =>
+        val sxx = (sx.map(infer_types_e(types))).asInstanceOf[DefField]
+        val t = remove_unknowns(sxx.value.tpe)
+        types(sx.name) = t
+        sxx
       case sx: DefRegister =>
         val t = remove_unknowns(sx.tpe)
         types(sx.name) = t

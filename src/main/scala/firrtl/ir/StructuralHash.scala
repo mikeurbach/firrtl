@@ -305,7 +305,8 @@ class StructuralHash private (h: Hasher, renameModule: String => String) {
       hash(memRef.size); memRef.foreach { case (a, b) => hash(a); hash(b) }
     case Verification(op, _, clk, pred, en, msg) =>
       id(36); hash(StructuralHash.verificationOp(op)); hash(clk); hash(pred); hash(en); hash(msg.string)
-    // ids 37 ... 39 are reserved for future Statement nodes
+    case DefField(_, name, tpe) => id(37); n(name); hash(tpe)
+    // ids 38 ... 39 are reserved for future Statement nodes
   }
 
   // ReadUnderWrite is never used in place of a FirrtlNode and thus we can start a new id namespace

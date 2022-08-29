@@ -93,8 +93,9 @@ object Serializer {
   }
 
   private def s(node: Statement)(implicit b: StringBuilder, indent: Int): Unit = node match {
-    case DefNode(info, name, value) => b ++= "node "; b ++= name; b ++= " = "; s(value); s(info)
-    case Connect(info, loc, expr)   => s(loc); b ++= " <= "; s(expr); s(info)
+    case DefNode(info, name, value)  => b ++= "node "; b ++= name; b ++= " = "; s(value); s(info)
+    case DefField(info, name, value) => b ++= "field "; b ++= name; b ++= " = "; s(value); s(info)
+    case Connect(info, loc, expr)    => s(loc); b ++= " <= "; s(expr); s(info)
     case Conditionally(info, pred, conseq, alt) =>
       b ++= "when "; s(pred); b ++= " :"; s(info)
       newLineAndIndent(1); s(conseq)(b, indent + 1)

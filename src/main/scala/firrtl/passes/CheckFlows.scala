@@ -98,6 +98,9 @@ object CheckFlows extends Pass {
         case (s: DefNode) =>
           check_flow(info, mname, flows, SourceFlow)(s.value)
           flows(s.name) = SourceFlow
+        case (s: DefField) =>
+          check_flow(info, mname, flows, SourceFlow)(s.value)
+          flows(s.name) = SourceFlow
         case (s: Connect) =>
           check_flow(info, mname, flows, SinkFlow)(s.loc)
           check_flow(info, mname, flows, SourceFlow)(s.expr)

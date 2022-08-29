@@ -504,6 +504,7 @@ abstract class Statement extends FirrtlNode {
   def foreachString(f: String => Unit):           Unit
   def foreachInfo(f:   Info => Unit):             Unit
 }
+
 case class DefWire(info: Info, name: String, tpe: Type)
     extends Statement
     with IsDeclaration
@@ -607,6 +608,22 @@ case class DefNode(info: Info, name: String, value: Expression)
   def mapExpr(f:       Expression => Expression): Statement = DefNode(info, name, f(value))
   def mapType(f:       Type => Type):             Statement = this
   def mapString(f:     String => String):         Statement = DefNode(info, f(name), value)
+  def mapInfo(f:       Info => Info):             Statement = this.copy(info = f(info))
+  def foreachStmt(f:   Statement => Unit):        Unit = ()
+  def foreachExpr(f:   Expression => Unit):       Unit = f(value)
+  def foreachType(f:   Type => Unit):             Unit = ()
+  def foreachString(f: String => Unit):           Unit = f(name)
+  def foreachInfo(f:   Info => Unit):             Unit = f(info)
+}
+case class DefField(info: Info, name: String, value: Expression)
+    extends Statement
+    with IsDeclaration
+    with CanBeReferenced
+    with UseSerializer {
+  def mapStmt(f:       Statement => Statement):   Statement = this
+  def mapExpr(f:       Expression => Expression): Statement = DefField(info, name, f(value))
+  def mapType(f:       Type => Type):             Statement = this
+  def mapString(f:     String => String):         Statement = DefField(info, f(name), value)
   def mapInfo(f:       Info => Info):             Statement = this.copy(info = f(info))
   def foreachStmt(f:   Statement => Unit):        Unit = ()
   def foreachExpr(f:   Expression => Unit):       Unit = f(value)
